@@ -1,0 +1,277 @@
+<div class="page-wrapper">
+			
+    <!-- Page Content -->
+    <div class="content container-fluid">
+    
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Projects</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Projects</li>
+                    </ul>
+                </div>
+                <div class="col-auto float-right ml-auto">
+                    <a  class="btn add-btn" data-toggle="modal" data-target="#create_project"><i class="fa fa-plus"></i> Create Project</a>
+                    <div class="view-icons">
+                        <a href="projects.html" class="grid-view btn btn-link"><i class="fa fa-th"></i></a>
+                        <a href="project-list.html" class="list-view btn btn-link active"><i class="fa fa-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <!-- Search Filter -->
+        <div class="row filter-row">
+            <div class="col-sm-6 col-md-3">  
+                <div class="form-group form-focus">
+                    <input type="text" class="form-control floating">
+                    <label class="focus-label">Project Name</label>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">  
+                <div class="form-group form-focus">
+                    <input type="text" class="form-control floating">
+                    <label class="focus-label">Employee Name</label>
+                </div>
+            </div>
+          
+            <div class="col-sm-6 col-md-3">  
+                <a  class="btn btn-success btn-block"> Search </a>  
+            </div>     
+        </div>
+        <!-- /Search Filter -->
+   
+        <div class="row" >
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table datatable">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>description</th>
+                                <th>StartDate</th>
+                                <th>FinishDate</th>
+                              
+                                <th>NomChefProjet</th>
+                                <th>Tasks Number</th>
+                                <th>priority</th>
+                                <th>statut</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let project of projects">
+                                <td>
+                                    <a href="project-view.html" [routerLink]="['/admin/tasks', project._id]">{{ project.NomProject }}</a>
+                                </td>
+                                <td>{{ project.description }}</td>
+                                <td>{{ project.StartDate  }}</td>
+                                <td>{{ project.FinishDate  }}</td>
+                               
+                                <td>
+                                    
+                                            <a  >{{ project.NomChefProjet }}</a>
+                                      
+                                </td>
+                                <td>{{ project.tasks?.length || '0' }}</td>
+                                <td>
+                                    <div class="dropdown action-label">
+                                        <a  class="btn btn-white btn-sm btn-rounded " data-toggle="dropdown" aria-expanded="false">
+                                        <i *ngIf="project.priority === 'Medium'" class="fa fa-dot-circle-o text-warning"></i>
+                                        <i *ngIf="project.priority === 'High'" class="fa fa-dot-circle-o text-danger"></i>
+                                        <i *ngIf="project.priority === 'Low'" class="fa fa-dot-circle-o text-success"></i>
+                                        {{project.priority}} </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown action-label">
+                                        <a class="btn btn-white btn-sm btn-rounded" data-toggle="dropdown" aria-expanded="false">
+                                            <i *ngIf="project.statut === 'EN_COURS'" class="fa fa-dot-circle-o text-warning"></i>
+                                            <i *ngIf="project.statut === 'TERMINE'" class="fa fa-dot-circle-o text-danger"></i>
+                                            <i *ngIf="project.statut === 'NOUVEAU'" class="fa fa-dot-circle-o text-success"></i>
+                                            {{ project.statut }}
+                                        </a>
+                                    </div>
+                                    
+                                    
+                                </td>
+                                <td class="text-right">
+                                    <div class="dropdown dropdown-action">
+                                        <a  class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item"  data-toggle="modal" data-target="#edit_project" [routerLink]="['editproject',project._id]"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                            <a class="dropdown-item"   data-toggle="modal" data-target="#delete_project"  (click)="deleteProject(project._id)"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                   
+    <!-- /Page Content -->
+    
+    <!-- Create Project Modal -->
+    <div id="create_project" class="modal custom-modal fade" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="add(addForm)">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Project Name</label>
+                                    <input class="form-control" type="text" name="NomProject"  ngModel required #NomProject="ngModel">
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div >
+                                        <input class="form-control " type="date"  name="StartDate"  ngModel required #StartDate="ngModel">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <div >
+                                        <input class="form-control " type="date" name="FinishDate"  ngModel required #FinishDate ="ngModel">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group select-status">
+                                <label for="status">priority</label>
+                                <select id="status" class="form-control-select" type="text"  name="priority"  ngModel required #priority="ngModel">
+                                    <option>High</option>
+                                    <option>Medium</option>
+                                    <option>Low</option>
+                                </select>
+                            </div>
+                         
+                            <div class="form-group select-status">
+                                <label for="status">Statut</label>
+                                <select id="status" class="form-control-select" type="text"  name="statut"  ngModel required #statut ="ngModel">
+                                    <option>EN_COURS</option>
+                                    <option>TERMINE</option>
+                                    <option>NOUVEAU</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Add Project Leader</label>
+                                    <input class="form-control" type="text" name="NomChefProjet"  ngModel required #NomChefProjet ="ngModel">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Team Leader</label>
+                                    <div class="project-members">
+                                        <a  data-toggle="tooltip" title="Jeffery Lalor" class="avatar">
+                                            <img src="assets/img/profiles/avatar-16.jpg" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Add Team</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Team Members</label>
+                                    <div class="project-members">
+                                        <a  data-toggle="tooltip" title="John Doe" class="avatar">
+                                            <img src="assets/img/profiles/avatar-16.jpg" alt="">
+                                        </a>
+                                        <a  data-toggle="tooltip" title="Richard Miles" class="avatar">
+                                            <img src="assets/img/profiles/avatar-09.jpg" alt="">
+                                        </a>
+                                        <a  data-toggle="tooltip" title="John Smith" class="avatar">
+                                            <img src="assets/img/profiles/avatar-10.jpg" alt="">
+                                        </a>
+                                        <a  data-toggle="tooltip" title="Mike Litorus" class="avatar">
+                                            <img src="assets/img/profiles/avatar-05.jpg" alt="">
+                                        </a>
+                                        <span class="all-team">+2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea   name="description"  ngModel required #description="ngModel" rows="4" class="form-control summernote" placeholder="Enter your message here"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Files</label>
+                            <input class="form-control" type="file">
+                        </div>
+                        <div class="submit-section">
+                            <button  class="btn btn-primary submit-btn" type="submit" [disabled]="addForm.invalid" >Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Create Project Modal -->
+    
+    <!-- Edit Project Modal -->
+ 
+    <!-- /Edit Project Modal -->
+    
+    <!-- Delete Project Modal -->
+   <!--  <div class="modal custom-modal fade" id="delete_project" #delete_project role="dialog" >
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="form-header">
+                        <h3>Delete Project</h3>
+                        <p>Are you sure want to delete?</p>
+                    </div>
+                    <div class="modal-btn delete-action">
+                        <div class="row">
+                            <div class="col-6">
+                                <a   data-dismiss="modal" (click)="deleteProject(selectedProjectId)" class="btn btn-primary continue-btn">Delete</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="javascript:void(0);" data-dismiss="modal" class="btn btn-primary cancel-btn">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- /Delete Project Modal -->
+
+</div>
+<!-- /Page Wrapper -->
+

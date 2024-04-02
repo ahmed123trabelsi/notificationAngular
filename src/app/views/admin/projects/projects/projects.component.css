@@ -1,0 +1,22 @@
+.select-status .form-control-select {
+    width: 100%;
+    padding: 10px 15px; /* Adjust left and top/bottom padding */
+    padding-right: 30px; /* Increase right padding to make space for the arrow */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 294.1l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 224 64.6 32.6c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192c12.5 12.4 32.8 12.4 45.3 0z"/></svg>');
+    background-position: right 10px center; /* Position the arrow image */
+    background-repeat: no-repeat;
+    background-size: 12px;
+
+}
+.select-status{
+    margin-right: 50px;
+}
+
+  
